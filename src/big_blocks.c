@@ -171,13 +171,13 @@ static void set_time_display() {
 	
 	switch(TIME_DISPLAY) {
 		case 1:
-			layer_set_frame(text_layer_get_layer(label_layer_hour), GRect(48, 40, 48, 102));
+			layer_set_frame(text_layer_get_layer(label_layer_hour), GRect(48, 65, 48, 77));
 			layer_set_hidden(text_layer_get_layer(label_layer_hour), false);
 			layer_set_hidden(text_layer_get_layer(label_layer_minute), true);
 			break;
 		case 2:
 			layer_set_hidden(text_layer_get_layer(label_layer_hour), true);
-			layer_set_frame(text_layer_get_layer(label_layer_minute), GRect(48, 40, 48, 102));
+			layer_set_frame(text_layer_get_layer(label_layer_minute), GRect(48, 65, 48, 77));
 			layer_set_hidden(text_layer_get_layer(label_layer_minute), false);
 			break;
 		case 3:
@@ -253,7 +253,7 @@ static void block_layer_update_callback(Layer *layer, GContext* ctx) {
 	GRect frame = layer_get_frame(layer);
 	
 	int id = get_id_by_position(frame.origin.x, frame.origin.y);
-	int hour = 11;//t->tm_hour > 12 ? t->tm_hour - 12 : t->tm_hour;
+	int hour = t->tm_hour > 12 ? t->tm_hour - 12 : t->tm_hour;
 	
 	graphics_context_set_fill_color(ctx, GColorWhite);
 	

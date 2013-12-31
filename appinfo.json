@@ -12,7 +12,8 @@
 		"configurable"
 	],
 	"appKeys": {
-		"theme": 0
+		"theme": 0,
+		"timeDisplay": 1
 	},
 	"resources": {
 		"media": [
