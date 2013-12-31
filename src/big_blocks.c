@@ -197,8 +197,6 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
 	Tuple *time_display_tuple = dict_find(iter, KEY_TIME_DISPLAY);
 	
 	if (theme_tuple) {
-		APP_LOG(APP_LOG_LEVEL_INFO, "SETTING THEME: %s", theme_tuple->value->cstring);
-
 		persist_write_string(KEY_THEME, theme_tuple->value->cstring);
 		strncpy(THEME, theme_tuple->value->cstring, 6);
 		
@@ -207,8 +205,6 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
 	
 	if (time_display_tuple) {
 		int time_display = time_display_tuple->value->data[0];
-		
-		APP_LOG(APP_LOG_LEVEL_INFO, "SETTING TIME DISPLAY: %d", time_display);
 		
 		persist_write_int(KEY_TIME_DISPLAY, time_display);
 		TIME_DISPLAY = time_display;
