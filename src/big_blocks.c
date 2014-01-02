@@ -217,7 +217,7 @@ static void in_dropped_handler(AppMessageResult reason, void *context) {
 	
 }
 
-static void handle_hour_tick(struct tm *tick_time, TimeUnits units_changed) {
+static void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
 	mark_all_dirty();
 	
 	time_t t = time(NULL);
@@ -306,7 +306,7 @@ static void init() {
 	inverter_layer = inverter_layer_create(bounds);
 	layer_add_child(window_layer, inverter_layer_get_layer(inverter_layer));
 	
-	tick_timer_service_subscribe(HOUR_UNIT, handle_hour_tick);
+	tick_timer_service_subscribe(MINUTE_UNIT, handle_minute_tick);
 	
 	set_theme();
 	set_time_display();
