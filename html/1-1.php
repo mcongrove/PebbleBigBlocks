@@ -30,7 +30,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 				</li>
 			</ul>
 			
-			<input type="hidden" id="theme" data-type="string" value="<?php echo isset($_GET['theme']) && $_GET['theme'] != 'undefined' ? $_GET['theme'] : 'dark'; ?>" />
+			<input type="hidden" id="theme" data-type="string" />
 			
 			<br class="clear" />
 		</div>
@@ -58,14 +58,12 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 							
 							foreach($options as $key => $option)
 							{
-								$selected = '';
-								
 								if($_GET['time'] == $key)
 								{
 									$selected = ' selected="selected"';
 								}
 								
-								echo '<option value="' . $key . '"' . $selected . '>' . $option . '</option>';
+								echo '<option value="' . $key . '">' . $option . '</option>';
 							}
 						
 						?>
