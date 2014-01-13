@@ -23,8 +23,8 @@ typedef struct {
 static BlockData blocks[12];
 
 enum {
-	KEY_THEME,
-	KEY_TIME_DISPLAY
+	KEY_THEME = 0x0,
+	KEY_TIME_DISPLAY = 0x1
 };
 
 static int get_id_by_position(int x, int y) {
@@ -152,22 +152,20 @@ static void mark_all_dirty() {
 
 static void set_theme() {
 	if (persist_exists(KEY_THEME)) {
-		persist_read_string(KEY_THEME, THEME, 7);
+		persist_read_string(KEY_THEME, THEME, 6);
 	}
-	
-	APP_LOG(APP_LOG_LEVEL_INFO, "SELECTED THEME: %s", THEME);
 	
 	bool hide = strcmp(THEME, "light") == 0 ? true : false;
 	
 	layer_set_hidden(inverter_layer_get_layer(inverter_layer), hide);
+	
+	APP_LOG(APP_LOG_LEVEL_INFO, "SELECTED THEME: %s", THEME);
 }
 
 static void set_time_display() {
 	if (persist_exists(KEY_TIME_DISPLAY)) {
 		TIME_DISPLAY = persist_read_int(KEY_TIME_DISPLAY);
 	}
-	
-	APP_LOG(APP_LOG_LEVEL_INFO, "SELECTED TIME DISPLAY: %d", TIME_DISPLAY);
 	
 	switch(TIME_DISPLAY) {
 		case 1:
@@ -190,27 +188,19 @@ static void set_time_display() {
 			layer_set_hidden(text_layer_get_layer(label_layer_hour), true);
 			layer_set_hidden(text_layer_get_layer(label_layer_minute), true);
 	}
+	
+	APP_LOG(APP_LOG_LEVEL_INFO, "SELECTED TIME DISPLAY: %d", TIME_DISPLAY);
 }
 
 static void in_received_handler(DictionaryIterator *iter, void *context) {
 	Tuple *theme_tuple = dict_find(iter, KEY_THEME);
 	Tuple *time_display_tuple = dict_find(iter, KEY_TIME_DISPLAY);
 	
-	if (theme_tuple) {
-		persist_write_string(KEY_THEME, theme_tuple->value->cstring);
-		strncpy(THEME, theme_tuple->value->cstring, 6);
-		
-		set_theme();
-	}
-	
-	if (time_display_tuple) {
-		int time_display = time_display_tuple->value->data[0];
-		
-		persist_write_int(KEY_TIME_DISPLAY, time_display);
-		TIME_DISPLAY = time_display;
-		
-		set_time_display();
-	}
+	theme_tuple ? persist_write_string(KEY_THEME, theme_tuple->value->cstring) : false;
+	time_display_tuple ? persist_write_int(KEY_TIME_DISPLAY, time_display_tuple->value->uint8) : false;
+
+	set_theme();
+	set_time_display();
 }
 
 static void in_dropped_handler(AppMessageResult reason, void *context) {
